@@ -1,0 +1,161 @@
+// ServiceNow Design System
+
+// NOW Dropdown Panel
+
+@import '@servicenow/sass-kit/host';
+@import 'theme';
+@import '@servicenow/sass-utility/align';
+@import '@servicenow/sass-utility/spacing';
+
+:host {
+	display: block;
+}
+
+.now-dropdown-list {
+	display: flex;
+	flex-direction: column;
+	height: inherit;
+	max-height: inherit;
+	font-family: $now-dropdown-list--font-family;
+	color: RGB($now-dropdown-list--color);
+	background-color: RGB($now-dropdown-list--background-color);
+	outline: none;
+	@include now-mx-inherits;
+
+	.now-line-height-crop {
+		@include now-mx-line-height-crop;
+	}
+}
+
+.now-dropdown-list-item-container {
+	overflow: auto;
+}
+
+.now-dropdown-list-item {
+	display: flex;
+	align-items: center;
+	height: now-fn-px2rem(32px);
+	padding-inline-start: $now-global-space--sm;
+	padding-inline-end: $now-global-space--lg;
+	font-size: $now-global-font-size--md;
+
+	&.is-focused {
+		cursor: pointer;
+		background-color: RGB($now-dropdown-list-item--background-color--focused);
+		outline: none;
+	}
+
+	&.is-disabled {
+		cursor: not-allowed;
+		color: $now-global-text--disabled;
+	}
+
+	.has-highlight {
+		font-weight: 600;
+		background-color: RGB(
+			$now-dropdown-list-item--background-color--highlighted
+		);
+	}
+
+	&.is-multi-line {
+		height: now-fn-px2rem(40px);
+	}
+}
+
+.now-dropdown-list-checkmark {
+	flex-shrink: 0;
+	width: now-fn-px2rem(16px);
+	margin-inline-end: $now-global-space--xxs;
+	color: RGB($now-dropdown-list-checkmark--color);
+
+	.is-disabled & {
+		color: RGBA($now-dropdown-list-checkmark--color, $now-global-opacity--mid);
+	}
+}
+
+.now-dropdown-list-labels {
+	min-width: 0;
+}
+
+.now-dropdown-list-sublabel {
+	margin-top: $now-global-space--xxs;
+	font-size: $now-global-font-size--sm;
+	line-height: $now-global-line-height--sm;
+	color: RGB($now-color--neutral-9);
+
+	.now-line-height-crop {
+		@include now-mx-line-height-crop($now-global-line-height--sm);
+	}
+
+	.is-disabled & {
+		color: $now-global-text--disabled;
+	}
+}
+
+.now-dropdown-list-header {
+	display: flex;
+	align-items: center;
+	height: now-fn-px2rem(24px);
+	padding-inline-start: $now-global-space--sm;
+	padding-inline-end: $now-global-space--sm;
+	font-size: $now-global-font-size--sm;
+	color: RGB($now-dropdown-list-header--color);
+	background-color: RGB($now-dropdown-list-header--background-color);
+
+	.now-line-height-crop {
+		@include now-mx-line-height-crop($now-global-line-height--sm);
+	}
+}
+
+.is-disabled .now-dropdown-list-identifier {
+	opacity: $now-global-opacity--mid;
+}
+
+.now-dropdown-list-divider {
+	margin-block-start: 0;
+	margin-block-end: 0;
+	border-block-start-width: 1px;
+	border-block-start-style: solid;
+	border-block-start-color: RGB($now-dropdown-list-divider--color);
+	border-block-end: none;
+	border-inline-start: none;
+	border-inline-end: none;
+}
+
+.will-truncate {
+	display: block;
+	@include now-mx-ellipsis;
+}
+
+.now-dropdown-list-search {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	height: now-fn-px2rem(32px);
+	border-block-end-width: 1px;
+	border-block-end-style: solid;
+	border-block-end-color: RGB($now-dropdown-list-search--border-color);
+	background-color: RGB($now-dropdown-list-search--background-color);
+
+	&:hover {
+		background: RGB($now-dropdown-list-search--background-color--hover);
+	}
+}
+
+.now-dropdown-list-search-field {
+	flex: 1;
+	height: now-fn-px2rem(32px);
+	border: none;
+	padding-block-start: 0;
+	padding-block-end: 0;
+	padding-inline-start: 0;
+	padding-inline-end: $now-global-space--sm;
+	font-size: $now-global-font-size--sm;
+	background: transparent;
+	outline: none;
+
+	&::placeholder {
+		color: $now-global-text--hint;
+		opacity: $now-global-text--hint;
+	}
+}

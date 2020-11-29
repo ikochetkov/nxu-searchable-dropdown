@@ -1,0 +1,138 @@
+// ServiceNow Design System
+
+// NOW Dropdown Panel
+
+@import '@servicenow/sass-kit/host';
+@import 'theme';
+@import '@servicenow/sass-utility/align';
+@import '@servicenow/sass-utility/spacing';
+
+.now-dropdown-panel {
+	position: fixed;
+	z-index: $now-global-layer--temp;
+	overflow: auto;
+	visibility: hidden;
+	font-family: $now-dropdown-list--font-family;
+	@include now-mx-inherits;
+
+	.now-line-height-crop {
+		min-width: 0;
+		@include now-mx-line-height-crop;
+	}
+}
+
+.now-dropdown-panel-list {
+	overflow-y: auto;
+	height: auto;
+	margin-block-start: 0;
+	margin-block-end: 0;
+	border-width: 1px;
+	border-style: solid;
+	border-color: RGB($now-dropdown-list--border-color);
+	padding-inline-start: 0;
+	box-shadow: $now-global-drop-shadow--md;
+	list-style: none;
+	color: RGB($now-dropdown-list--color);
+	background-color: RGB($now-dropdown-list--background-color);
+	outline: none;
+}
+
+.now-dropdown-panel-search {
+	display: flex;
+	align-items: center;
+	padding-inline-start: $now-global-space--sm;
+	padding-inline-end: $now-global-space--lg;
+	font-size: $now-global-font-size--md;
+	line-height: $now-global-line-height;
+	border: 1px solid RGB($now-dropdown-list--border-color);
+
+	&:focus-within {
+		background-color: RGB($now-color--primary-0);
+	}
+}
+
+
+
+.search-box {
+	border: none;
+}
+
+.now-dropdown-panel-item {
+	display: flex;
+	align-items: center;
+	height: now-fn-px2rem(32px);
+	padding-inline-start: $now-global-space--sm;
+	padding-inline-end: $now-global-space--lg;
+	font-size: $now-global-font-size--md;
+	line-height: $now-global-line-height;
+
+	&:focus {
+		cursor: pointer;
+		background-color: RGB($now-color--primary-0);
+		outline: none;
+	}
+
+	&.is-disabled {
+		cursor: not-allowed;
+		color: $now-global-text--disabled;
+	}
+}
+
+.hover-effect {
+	&:hover {
+		cursor: pointer;
+		background-color: RGB($now-color--primary-0);
+		outline: none;
+	}
+}
+
+// end .now-dropdown-panel-item
+
+.now-dropdown-panel-label {
+	display: block;
+	@include now-mx-ellipsis;
+}
+
+.now-dropdown-panel-checkmark {
+	min-width: now-fn-px2rem(16px);
+	margin-inline-end: $now-global-space--xxs;
+	color: RGB($now-dropdown-list-checkmark--color);
+
+	.is-disabled & {
+		color: RGBA($now-dropdown-list-checkmark--color, $now-global-opacity--mid);
+	}
+}
+
+.now-dropdown-panel-header {
+	display: flex;
+	align-items: center;
+	height: now-fn-px2rem(24px);
+	margin-block-start: 0;
+	margin-block-end: 0;
+	padding-inline-start: $now-global-space--sm;
+	padding-inline-end: $now-global-space--sm;
+	font-size: $now-global-font-size--sm;
+	line-height: $now-global-line-height--sm;
+	color: RGB($now-dropdown-list-header--color);
+	background-color: RGB($now-dropdown-list-header--background-color);
+
+	.now-line-height-crop {
+		@include now-mx-line-height-crop($now-global-line-height--sm);
+	}
+}
+
+.now-dropdown-panel-header-label {
+	display: block;
+	@include now-mx-ellipsis;
+}
+
+.now-dropdown-panel-divider {
+	margin-block-start: 0;
+	margin-block-end: 0;
+	border-block-start-width: 1px;
+	border-block-start-style: solid;
+	border-block-start-color: RGB($now-dropdown-list-divider--color);
+	border-block-end: none;
+	border-inline-start: none;
+	border-inline-end: none;
+}

@@ -1,0 +1,292 @@
+// ServiceNow Design System
+
+// NOW Dropdown
+
+@import '@servicenow/sass-kit/host';
+@import 'theme';
+@import '@servicenow/sass-utility/align';
+@import '@servicenow/sass-utility/spacing';
+
+:host {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.now-dropdown {
+	@include now-mx-button;
+	max-width: inherit;
+	margin: 0;
+	border-width: $now-button--border-width;
+	border-style: solid;
+	padding-block-start: 0;
+	padding-block-end: 0;
+	text-transform: $now-button--text-transform;
+	@include now-mx-focus-ring;
+
+	// <now-dropdown size="sm|md|lg">
+
+	&.-sm {
+		@include now-mx-button-sm;
+		padding-inline-start: calc(
+			#{$now-global-space--sm} * #{$now-button--width-scale}
+		);
+		padding-inline-end: calc(
+			#{$now-global-space--sm} * #{$now-button--width-scale}
+		);
+
+		&.has-caret.has-label:not(.is-bare) {
+			padding-inline-end: calc(
+				#{$now-global-space--xs} * #{$now-button--width-scale}
+			);
+		}
+
+		&:not(.has-caret):not(.has-label) {
+			width: calc(
+				#{$now-global-font-size--sm} * 2 * #{$now-button--width-scale}
+			);
+			padding-inline-start: 0;
+			padding-inline-end: 0;
+		}
+
+		&.has-caret:not(.has-label) {
+			padding-inline-start: calc(
+				#{$now-global-space--xs} * #{$now-button--width-scale}
+			);
+			padding-inline-end: calc(
+				#{$now-global-space--xs} * #{$now-button--width-scale}
+			);
+		}
+
+		&.has-label .now-line-height-crop {
+			@include now-mx-line-height-crop($now-global-line-height--sm);
+		}
+	}
+
+	&.-md {
+		@include now-mx-button-md;
+		padding-inline-start: calc(
+			#{$now-global-space--lg} * #{$now-button--width-scale}
+		);
+		padding-inline-end: calc(
+			#{$now-global-space--lg} * #{$now-button--width-scale}
+		);
+
+		&.has-caret.has-label:not(.is-bare) {
+			padding-inline-end: calc(
+				#{$now-global-space--md} * #{$now-button--width-scale}
+			);
+		}
+
+		&:not(.has-caret):not(.has-label) {
+			width: calc(
+				#{$now-global-font-size--md} * 2 * #{$now-button--width-scale}
+			);
+			padding-inline-start: 0;
+			padding-inline-end: 0;
+		}
+
+		&.has-caret:not(.has-label) {
+			padding-inline-start: calc(
+				#{$now-global-space--sm} * #{$now-button--width-scale}
+			);
+			padding-inline-end: calc(
+				#{$now-global-space--sm} * #{$now-button--width-scale}
+			);
+		}
+
+		&.has-label .now-line-height-crop {
+			@include now-mx-line-height-crop;
+		}
+	}
+
+	&.-lg {
+		@include now-mx-button-lg;
+		padding-inline-start: calc(
+			#{$now-global-space--xl} * #{$now-button--width-scale}
+		);
+		padding-inline-end: calc(
+			#{$now-global-space--xl} * #{$now-button--width-scale}
+		);
+
+		&.has-caret.has-label:not(.is-bare) {
+			padding-inline-end: calc(
+				#{$now-global-space--lg} * #{$now-button--width-scale}
+			);
+		}
+
+		&:not(.has-caret):not(.has-label) {
+			width: calc(
+				#{$now-global-font-size--xl} * 2 * #{$now-button--width-scale}
+			);
+			padding-inline-start: 0;
+			padding-inline-end: 0;
+		}
+
+		&.has-caret:not(.has-label) {
+			padding-inline-start: calc(
+				#{$now-global-space--md} * #{$now-button--width-scale}
+			);
+			padding-inline-end: calc(
+				#{$now-global-space--md} * #{$now-button--width-scale}
+			);
+		}
+
+		&.has-label .now-line-height-crop {
+			@include now-mx-line-height-crop;
+		}
+	}
+
+	// <now-dropdown variant="primary|secondary|secondary-selected|tertiary|tertiary-selected">
+
+	&.-primary {
+		@include now-mx-button-primary;
+
+		&.is-active {
+			background-color: RGB($now-dropdown--primary--active--background-color);
+		}
+	}
+
+	&.-secondary {
+		@include now-mx-button-secondary;
+
+		&.is-active:not(.is-bare) {
+			color: RGB($now-dropdown--secondary--active--color);
+			background-color: RGB($now-dropdown--secondary--active--background-color);
+		}
+
+		&.-selected {
+			color: RGB($now-dropdown--secondary-selected--color);
+
+			&:hover {
+				color: RGB($now-dropdown--secondary-selected--color--hover);
+			}
+
+			&:active,
+			&.is-active:not(.is-bare) {
+				color: RGB($now-dropdown--secondary-selected--color--active);
+			}
+		}
+	}
+
+	&.-tertiary {
+		@include now-mx-button-tertiary;
+
+		&.is-active:not(.is-bare) {
+			color: RGB($now-dropdown--tertiary--active--color);
+			background-color: RGB($now-dropdown--tertiary--active--background-color);
+		}
+
+		&.-selected {
+			color: RGB($now-dropdown--tertiary-selected--color);
+
+			&:hover {
+				color: RGB($now-dropdown--tertiary-selected--color--hover);
+			}
+
+			&:active,
+			&.is-active:not(.is-bare) {
+				color: RGB($now-dropdown--tertiary-selected--color--active);
+			}
+		}
+	}
+
+	// <now-dropdown bare>
+
+	&.is-bare {
+		@include now-mx-button-is-bare;
+		width: 100%;
+
+		&.has-label:not(.show-padding) {
+			padding-inline-start: 0;
+			padding-inline-end: 0;
+		}
+
+		&.-secondary {
+			&:not(.has-label):hover {
+				background-color: RGBA(
+					$now-dropdown-bare--secondary--background-color--hover,
+					$now-global-opacity--less
+				);
+			}
+
+			&:not(.has-label) {
+				&:active,
+				&.is-active {
+					background-color: RGBA(
+						$now-dropdown-bare--secondary--background-color--active,
+						$now-global-opacity--mid
+					);
+				}
+			}
+
+			&.-selected {
+				color: RGB($now-dropdown-bare--secondary-selected--color);
+
+				&:hover {
+					color: RGB($now-dropdown-bare--secondary-selected--color--hover);
+				}
+
+				&:active,
+				&.is-active {
+					color: RGB($now-dropdown-bare--secondary-selected--color--active);
+				}
+			}
+		}
+
+		&.-tertiary {
+			color: RGB($now-dropdown-bare--tertiary--color);
+
+			&:hover {
+				color: RGB($now-dropdown-bare--tertiary--color--hover);
+
+				/* stylelint-disable max-nesting-depth */
+
+				&:not(.has-label) {
+					background-color: RGBA(
+						$now-dropdown-bare--tertiary--background-color--hover,
+						$now-global-opacity--less
+					);
+				}
+			}
+
+			&:active,
+			&.is-active {
+				color: RGB($now-dropdown-bare--tertiary--color--active);
+
+				&:not(.has-label) {
+					background-color: RGBA(
+						$now-dropdown-bare--tertiary--background-color--active,
+						$now-global-opacity--mid
+					);
+				}
+			}
+		}
+
+		&.-inherit {
+			color: inherit;
+
+			&:hover,
+			&:active {
+				color: inherit;
+			}
+		}
+
+		@include now-mx-button-is-bare-is-disabled;
+	}
+
+	// <now-dropdown disabled>
+
+	&.is-disabled {
+		@include now-mx-button-is-disabled;
+	}
+
+	.now-line-height-crop {
+		min-width: 0;
+	}
+} // end .now-dropdown
+
+.now-dropdown-label {
+	display: block;
+	@include now-mx-rtl-value('text-align', 'left');
+	@include now-mx-ellipsis;
+}

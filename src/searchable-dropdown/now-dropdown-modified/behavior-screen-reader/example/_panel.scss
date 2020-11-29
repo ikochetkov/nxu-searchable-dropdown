@@ -1,0 +1,16 @@
+.listbox {
+	width: 230px;
+	margin: 0;
+	border: 1px solid #cccccc;
+	padding: 0;
+	list-style: none;
+}
+
+.focused {
+	background: rgb(139, 189, 225);
+}
+
+.checked {
+	font-weight: bold;
+	color: rebeccapurple;
+}

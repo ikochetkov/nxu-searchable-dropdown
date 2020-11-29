@@ -1,0 +1,15 @@
+@import '@servicenow/sass-utility/a11y';
+
+label {
+	margin-right: 5px;
+	font-weight: bold;
+}
+
+input {
+	width: 200px;
+	border: 1px solid #aaaaaa;
+	border-radius: 2px;
+	padding-right: 30px;
+	font-size: inherit;
+	line-height: 1.5em;
+}

@@ -1,0 +1,55 @@
+// ServiceNow Design System
+
+// NOW Dropdown Theme
+
+@import '@servicenow/sass-theme/p';
+
+$now-dropdown--primary--active--background-color: var(p(--now-dropdown--primary--active--background-color), $now-color--primary-3);
+
+$now-dropdown--secondary--active--color: var(p(--now-dropdown--secondary--active--color), $now-color--secondary-3);
+$now-dropdown--secondary--active--background-color: var(p(--now-dropdown--secondary--active--background-color), $now-color--neutral-5);
+
+$now-dropdown-bare--secondary--background-color--hover: var(p(--now-dropdown-bare--secondary--background-color--hover), $now-color--neutral-9);
+$now-dropdown-bare--secondary--background-color--active: var(p(--now-dropdown-bare--secondary--background-color--active), $now-color--neutral-9);
+
+$now-dropdown--tertiary--active--color: var(p(--now-dropdown--tertiary--active--color), $now-dropdown--secondary--active--color);
+$now-dropdown--tertiary--active--background-color: var(p(--now-dropdown--tertiary--active--background-color), $now-dropdown--secondary--active--background-color);
+
+$now-dropdown--secondary-selected--color: var(p(--now-dropdown--secondary-selected--color), $now-color--primary-2);
+$now-dropdown--secondary-selected--color--hover: var(p(--now-dropdown--secondary-selected--color--hover), $now-color--primary-3);
+$now-dropdown--secondary-selected--color--active: var(p(--now-dropdown--secondary-selected--color--active), $now-color--primary-3);
+
+$now-dropdown-bare--secondary-selected--color: var(p(--now-dropdown-bare--secondary-selected--color), $now-color--primary-1);
+$now-dropdown-bare--secondary-selected--color--hover: var(p(--now-dropdown-bare--secondary-selected--color--hover), $now-color--primary-2);
+$now-dropdown-bare--secondary-selected--color--active: var(p(--now-dropdown-bare--secondary-selected--color--active), $now-color--primary-3);
+
+$now-dropdown-bare--tertiary--color: var(p(--now-dropdown-bare--tertiary--color), $now-color--secondary-1);
+$now-dropdown-bare--tertiary--color--hover: var(p(--now-dropdown-bare--tertiary--color--hover), $now-color--secondary-2);
+$now-dropdown-bare--tertiary--color--active: var(p(--now-dropdown-bare--tertiary--color--active), $now-color--secondary-3);
+
+$now-dropdown-bare--tertiary--background-color--hover: var(p(--now-dropdown-bare--tertiary--background-color--hover), $now-dropdown-bare--secondary--background-color--hover);
+$now-dropdown-bare--tertiary--background-color--active: var(p(--now-dropdown-bare--tertiary--background-color--active), $now-dropdown-bare--secondary--background-color--active);
+
+$now-dropdown--tertiary-selected--color: var(p(--now-dropdown--tertiary-selected--color), $now-dropdown--secondary-selected--color);
+$now-dropdown--tertiary-selected--color--hover: var(p(--now-dropdown--tertiary-selected--color--hover), $now-dropdown--secondary-selected--color--hover);
+$now-dropdown--tertiary-selected--color--active: var(p(--now-dropdown--tertiary-selected--color--active), $now-dropdown--secondary-selected--color--active);
+
+$now-dropdown-list--font-family: var(p(--now-dropdown-list--font-family), var(--now-font-family));
+
+$now-dropdown-list--border-color: var(p(--now-dropdown-list--border-color), $now-color--primary-1);
+$now-dropdown-list--color: var(p(--now-dropdown-list--color), $now-color--text-primary);
+$now-dropdown-list--background-color: var(p(--now-dropdown-list--background-color), $now-color--background-primary);
+
+$now-dropdown-list-checkmark--color: var(p(--now-dropdown-list-checkmark--color), $now-color--primary-2);
+
+$now-dropdown-list-header--color: var(p(--now-dropdown-list-header--color), $now-color--text-tertiary);
+$now-dropdown-list-header--background-color: var(p(--now-dropdown-list-header--background-color), $now-color--background-secondary);
+
+$now-dropdown-list-divider--color: var(p(--now-dropdown-list-divider--color), $now-color--divider-tertiary);
+
+$now-dropdown-list-search--border-color: var(p(--now-dropdown-list-search--border-color), $now-color--neutral-5);
+$now-dropdown-list-search--background-color: var(p(--now-dropdown-list-search--background-color), $now-color--neutral-0);
+$now-dropdown-list-search--background-color--hover: var(p(--now-dropdown-list-search--background-color), $now-color--neutral-1);
+
+$now-dropdown-list-item--background-color--focused: var(p(--now-dropdown-list--background-color--focused), $now-color--secondary-0);
+$now-dropdown-list-item--background-color--highlighted: var(p(--now-dropdown-list-item--background-color--highlighted), $now-color--alert-warning-0);
