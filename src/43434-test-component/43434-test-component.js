@@ -3,8 +3,9 @@ import { createCustomElement } from '@servicenow/ui-core';
 import snabbdom from '@servicenow/ui-renderer-snabbdom';
 import styles from './styles.scss';
 import view from './view'
-import actions from './actions'
-import '../searchable-dropdown';
+import actions from './actions';
+import '../nxu-searchable-dropdown';
+
 
 createCustomElement('test-component', {
 	renderer: { type: snabbdom },

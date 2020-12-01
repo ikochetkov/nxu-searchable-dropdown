@@ -1,3 +1,2 @@
-import './x-431441-searchable-dropdown';
-
-import './testcomponent';
+import './nxu-searchable-dropdown';
+import './43434-test-component';

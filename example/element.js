@@ -1,4 +1,4 @@
-import '../src/testcomponent';
+import '../src/43434-test-component';
 
 const el = document.createElement('DIV');
 document.body.appendChild(el);

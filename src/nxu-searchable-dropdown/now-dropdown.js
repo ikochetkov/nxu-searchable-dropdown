@@ -15,6 +15,8 @@ import './now-dropdown-panel';
 import { t } from '@servicenow/library-translate';
 import { itemsSchema } from './schemas/dropdown-schema';
 import { constrainSchema } from '@servicenow/behavior-fit';
+import { actionTypes } from '@servicenow/ui-core';
+const { COMPONENT_BOOTSTRAPPED } = actionTypes;
 
 const renderDropdownTrigger = ({
 	label,
@@ -34,9 +36,7 @@ const renderDropdownTrigger = ({
 	hideLabel,
 	showPadding,
 	configAria,
-	componentId,
-	properties, //searchable-dropdown
-	dispatch //searchable-dropdown
+	componentId
 }) => {
 	const setFitTarget = (ref) => setTimeout(() => updateState({ fitTarget: ref }));
 	const hasLabel = label && !hideLabel;
@@ -186,7 +186,7 @@ const getTriggerIcon = (icon, selected) => {
 };
 
 const view = (state, { dispatch, updateState }) => {
-	const { componentId } = state;
+	const { componentId, fitTarget, properties, choices, searchText } = state;
 	const {
 		opened,
 		select,
@@ -204,12 +204,10 @@ const view = (state, { dispatch, updateState }) => {
 		hideLabel,
 		showPadding,
 		configAria,
-		searchText,
 		alwaysFocusSearchOnOpen,
 		searchIcon,
 		focusOnHover
-	} = state.properties;
-	const { fitTarget, properties } = state;
+	} = properties;
 
 	const onToggleOpened = (evt) => {
 		if (!disabled) {
@@ -227,6 +225,7 @@ const view = (state, { dispatch, updateState }) => {
 	if (Array.isArray(selectedItems) && selectedItems.length === 1) {
 		selected = getSelected(items, selectedItems[0]);
 	}
+
 
 	return (
 		<Fragment>
@@ -248,13 +247,11 @@ const view = (state, { dispatch, updateState }) => {
 				hideLabel,
 				showPadding,
 				configAria,
-				componentId,
-				properties, //searchable-dropdown
-				dispatch //searchable-dropdown
+				componentId
 			})}
 			<now-dropdown-panel
 				id={`panel-${componentId}`}
-				items={items}
+				items={choices}
 				selected-items={selectedItems}
 				manage-selected-items
 				select={select}
@@ -274,118 +271,41 @@ const view = (state, { dispatch, updateState }) => {
 	);
 };
 
-/**
- * A dropdown is a partially hidden panel element that is used to display a list of menu options.
- * A user selects the dropdown to expose the list of options hidden in the panel. This gives users
- * the flexibility to make one or more selections from the list of options that appear in the panel.
- *
- * ```jsx
- * const dropdownItems = [{id: 'item1', label: 'Option 1'}, {id: 'item2', label: 'Option 2'}];
- *
- * <now-dropdown placeholder="Select" items={dropdownItems} />
- *
- * <now-dropdown
- *    items={dropdownItems}
- *    icon="tag-fill"
- *    tooltip-content="Select an item"
- *    config-aria={{'aria-label': 'Select an item'}}
- *    bare />
- *
- * <now-dropdown items={dropdownItems} bare select="none">
- *   <now-avatar slot="trigger-content" user-name="Manuel Bernada" />
- * </now-dropdown>
- *
- * const dropdownItemsWithDividers = [{label: 'Section 1', children: dropdownItems}];
- * <now-dropdown items={dropdownItemsWithDividers} />
- * ```
- *
- * @seismicElement now-dropdown
- * @summary A dropdown menu that allows user to select one or more values.
- *
- * */
 createEnhancedElement('now-dropdown', {
+	initialState: {
+		choices: [],
+		searchText: '',
+		selectedValue: []
+	},
 	properties: {
-		/**
-		 * An array of `DropdownItem` or `DropdownSection` items.
-		 * @type {(Array.<DropdownItem> | Array.<DropdownSection>)}
-		 */
 		items: {
-			required: true,
-			schema: itemsSchema
+			required: true, schema: itemsSchema, default: [
+				{ "id": "al", "label": "Alabama" },
+				{ "id": "ak", "label": "Alaska" },
+				{ "id": "az", "label": "Arizona" },
+				{ "id": "ar", "label": "Arkansas" },
+				{ "id": "ca", "label": "California" },
+				{ "id": "co", "label": "Colorado" }
+			]
 		},
-
-		searchText: {
-			required: true
-		},
-
 		searchIcon: { default: "magnifying-glass-fill" },
-
 		alwaysFocusSearchOnOpen: {
 			default: false
 		},
-		focusOnHover: {default: true},
-		/**
-		 * An array of ids representing selected dropdown panel items. If multi-select mode is
-		 * not enabled, each time the user selects a list item, the previously selected
-		 * id will be replaced with the new id. If multi-select mode is
-		 * enabled, ids will be added to or removed from the list.
-		 * Use `manage-selected-items` to override the default behavior and handle the
-		 * `NOW_DROPDOWN#SELECTED_ITEMS_SET` action manually.
-		 * @type {Array.<(string|number)>}
-		 */
+		focusOnHover: { default: true },
 		selectedItems: {
 			default: [],
 			manageable: true,
 			schema: { type: 'array', items: { type: ['string', 'number'] } }
 		},
-		/**
-		 * Determines what happens when the user selects a dropdown item.
-		 * Choose from the following:
-		 * - "single" (default) - the panel is closed, the trigger label is updated with
-		 *   the label of the selected list item, and the list item is marked as selected.
-		 * - "multi" - the panel stays open, the trigger label is updated with the selected
-		 *    list item count, and the list item's selected state is toggled on/off.
-		 * - "none" - the panel is closed, the trigger label is not updated, and the
-		 *   list item is not marked as selected.
-		 * When using the "single" or "multi" option, handle the `NOW_DROPDOWN#SELECTED_ITEMS_SET`
-		 * action manually. When using the "none" option, handle the `NOW_DROPDOWN#ITEM_CLICKED` action manually.
-		 * @type {("single"|"multi"|"none")}
-		 */
 		select: {
 			default: 'single',
 			schema: { type: 'string', enum: ['single', 'multi', 'none'] }
 		},
-		/**
-		 * Automatically updates when the user opens or closes the dropdown.
-		 * Use `manage-opened` to override the default behavior and handle the
-		 * `NOW_DROPDOWN#OPENED_SET` action manually.
-		 * @type {boolean}
-		 */
 		opened: { default: false, manageable: true, schema: { type: 'boolean' } },
-		/**
-		 * The fallback label displays when no items are selected. If you do not
-		 * specify a placeholder value, especially in the case of iconic
-		 * dropdowns, provide `tooltipContent` and/or an `aria-label`
-		 * via the `configAria` properties.
-		 * @type {string}
-		 */
-		placeholder: { schema: { type: 'string' } },
-		/**
-		 * Enable to show the dropdown as visually disabled and to stop the dropdown
-		 * from opening when the user interacts with it.
-		 * @type {boolean}
-		 */
+		placeholder: { schema: { type: 'string' }, default: "(empty)" },
 		disabled: { default: false, schema: { type: 'boolean' } },
-		/**
-		 * Placeholder icon to include in the dropdown trigger. This icon will be replaced by
-		 * the icon of a selected dropdown item if the item has an icon configured.
-		 * @type {string}
-		 */
 		icon: { schema: { type: 'string' } },
-		/**
-		 * Sets the button styles of the dropdown trigger.
-		 * @type {("primary"|"secondary"|"secondary-selected"|"tertiary"|"tertiary-selected"|"inherit")}
-		 */
 		variant: {
 			default: 'secondary',
 			schema: {
@@ -400,46 +320,11 @@ createEnhancedElement('now-dropdown', {
 				]
 			}
 		},
-		/**
-		 * Sets the button size of the dropdown trigger.
-		 * @type {("sm"|"md"|"lg")}
-		 */
 		size: { default: 'md', schema: { type: 'string', enum: ['sm', 'md', 'lg'] } },
-		/**
-		 * Makes the dropdown trigger border and background transparent, but retains
-		 * its `variant` style setting when an iconic button. If button is text or
-		 * text with an icon then only works when `variant` is `secondary`,
-		 * `tertiary`, or `inherit`.
-		 * @type {boolean}
-		 */
 		bare: { default: false, schema: { type: 'boolean' } },
-		/**
-		 * Hides the triangular caret icon that appears in the dropdown trigger by
-		 * default.
-		 * @type {boolean}
-		 */
 		hideCaret: { default: false, schema: { type: 'boolean' } },
-		/**
-		 * Text shown inside the tooltip
-		 * @type {string}
-		 */
 		tooltipContent: { schema: { type: 'string' } },
-		/**
-		 * Properties to configure the dropdown panel.
-		 *
-		 * Valid keys are:
-		 *	- position,
-		 *	- container
-		 *	- constrain
-		 *
-		 * Each of these keys are used to control how the panel is positioned and
-		 * scaled relative to the dropdown target.
-		 *
-		 * @see Fit behavior for more information on each property and valid
-		 * values.
-		 *
-		 * @type {{ position: Array<string>, container: HTMLElement, constrain: object }}
-		 */
+
 		panelFitProps: {
 			default: {},
 			schema: {
@@ -454,27 +339,8 @@ createEnhancedElement('now-dropdown', {
 				}
 			}
 		},
-		/**
-		 * Set this flag to suppress a visual indication of
-		 * the selected item(s). By default, the dropdown displays
-		 * the selected item or a count of selected items in place of the
-		 * `placeholder` text in the label of the dropdown trigger.
-		 * @type {boolean}
-		 */
 		hideLabel: { default: false, schema: { type: 'boolean' } },
-		/**
-		 * Set this flag to always include side padding on bare buttons.
-		 * By default, bare buttons with labels do not have side padding.
-		 * @type {boolean}
-		 */
 		showPadding: { default: false, schema: { type: 'boolean' } },
-		/**
-		 * An object whose items, all aria properties, will be set on the inner
-		 * html `<button>`.
-		 * See https://www.w3.org/TR/wai-aria-1.1/#button for properties and
-		 * accepted values.
-		 * @type {{ 'aria-*': string }}
-		 */
 		configAria: {
 			schema: {
 				type: 'object',
@@ -499,44 +365,50 @@ createEnhancedElement('now-dropdown', {
 				state.fitTarget.focus();
 			}
 		},
+		// 'NOW_DROPDOWN#OPENED_SET': (coeffects) => {
+		// 	const { properties, updateProperties } = coeffects;
+		// 	updateProperties({ opened: !properties.opened })
+		// },
+
 		'NOW_DROPDOWN_PANEL#SELECTED_ITEMS_SET': makeRedispatchEffect(
 			'NOW_DROPDOWN#SELECTED_ITEMS_SET'
 		),
 		'NOW_DROPDOWN_PANEL#ITEM_CLICKED': makeRedispatchEffect(
 			'NOW_DROPDOWN#ITEM_CLICKED'
-		)
+		),
+		[COMPONENT_BOOTSTRAPPED]: ({ properties, updateState }) => {
+			updateState({ choices: properties.items })
+		},
+		"SEARCHABLE_DROPDOWN#FILTERED": ({ updateState, properties, action: { payload: searchText } }) => {
+			const { items } = properties;
+			const choicesToShow = searchText
+				? items.filter(item => item.label.toLowerCase().includes(searchText.toLowerCase()))
+				: items;
+			updateState({ choices: choicesToShow, searchText: searchText });
+
+		},
+		"NOW_DROPDOWN_PANEL#OPENED_SET": ({ state, dispatch, action, updateProperties }) => {
+			const { payload: { value } } = action;
+			updateProperties({ opened: value });
+			if (!value) state.fitTarget.focus();
+			dispatch("SEARCHABLE_DROPDOWN#FILTERED", "");
+		},
+		'NOW_DROPDOWN_PANEL#SELECTED_ITEMS_SET': ({ updateState, action, updateProperties, properties }) => {
+			const { payload: { value } } = action; console.log(value);
+			updateState({ selectedValue: value });
+			if (properties.select != 'multi') updateProperties({ opened: false });
+		},
+		'NOW_DROPDOWN_PANEL#SELECTED_ITEMS_SET': (coeffects) => {
+			console.log(coeffects.action.payload.value);
+			coeffects.updateProperties({ selectedItems: coeffects.action.payload.value });
+		}
 	},
 	dispatches: {
-		/**
-		 * Dispatched when the dropdown menu is opened or closed. Payload contains
-		 * a boolean of `true` when the dropdown is opened or `false` when the dropdown is closed.
-		 * Set the `manage-opened` property to override the default behavior and
-		 * handle this action manually.
-		 * @type {{value: boolean}}
-		 */
 		'NOW_DROPDOWN#OPENED_SET': {},
-		/**
-		 * Dispatched when the user changes the selection of items in the dropdown panel.
-		 * Payload contains an array containing either a single ID (for `select="single"`) or
-		 * multiple IDs (for `select="multi"`) of the selected item(s).
-		 * Set the `manage-selected-items` property to override the default behavior and
-		 * handle this action manually.
-		 * @type {{value: Array.<(string|number)>}}
-		 */
 		'NOW_DROPDOWN#SELECTED_ITEMS_SET': {},
-		/**
-		 * Dispatched when the user selects a dropdown item. Payload contains
-		 * a reference to the clicked item. Handle this action for dropdown menus (where `select="none"`).
-		 * @type {{item: DropdownItem}}
-		 */
 		'NOW_DROPDOWN#ITEM_CLICKED': {}
 	},
 	slots: {
-		/**
-		 * Content placed in this named slot appears inside of the trigger button of the dropdown,
-		 * taking the place of the `icon`, `placeholder` and caret icon that normally appear there.
-		 * Click behavior and other functionality is maintained for the custom content automatically.
-		 */
 		'trigger-content': {}
 	},
 	behaviors: [

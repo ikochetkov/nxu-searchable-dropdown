@@ -332,21 +332,20 @@ const view = (state, { dispatch }) => {
 			id={`panel-${componentId}`}
 			className="now-dropdown-panel"
 			style={fitStyle}>
-			{/* {items.length ? */}
-				<div className="now-dropdown-panel-search">
-					{searchIcon ? <now-icon className="now-dropdown-panel-checkmark" icon={searchIcon}></now-icon> : null}
-					<input
-						value={searchText}
-						className="now-dropdown-panel-item search-box"
-						type="text"
-						on-input={(e) => {
-							/* searchable-dropdown */
-							dispatch("SEARCHABLE_DROPDOWN#FILTERED", e.target.value);
-						}}
-						placeholder="Type to filter">
-					</input>
-				</div>
-				{/* : null} */}
+			<div className="now-dropdown-panel-search">
+				{searchIcon ? <now-icon className="now-dropdown-panel-checkmark" icon={searchIcon}></now-icon> : null}
+				<input
+					size="7"
+					value={searchText}
+					className="now-dropdown-panel-item search-box"
+					type="text"
+					on-input={(e) => {
+						/* searchable-dropdown */
+						dispatch("SEARCHABLE_DROPDOWN#FILTERED", e.target.value);
+					}}
+					placeholder="Type to filter">
+				</input>
+			</div>
 			<div
 				className="now-dropdown-panel-list"
 				role={select === 'none' ? 'menu' : 'listbox'}
@@ -489,6 +488,7 @@ createEnhancedElement('now-dropdown-panel', {
 					const path = event.composedPath ? event.composedPath() : event.path;
 					const hostInPath = path.includes(host);
 					if (!hostInPath) {
+						console.log('here');
 						dispatch(() => {
 							return {
 								type: 'NOW_DROPDOWN_PANEL#OPENED_SET',
