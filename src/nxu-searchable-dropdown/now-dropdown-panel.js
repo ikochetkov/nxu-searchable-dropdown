@@ -260,7 +260,7 @@ const view = (state, { dispatch }) => {
 		if (select === 'single' || select === 'multi') {
 			dispatch(({ properties }) => {
 				return {
-					type: 'NOW_DROPDOWN_PANEL#SELECTED_ITEMS_SET',
+					type: 'SEARCHABLE_DROPDOWN#SELECTED_ITEMS_SET',
 					payload: {
 						value:
 							properties.select === 'multi'
@@ -488,10 +488,10 @@ createEnhancedElement('now-dropdown-panel', {
 					const path = event.composedPath ? event.composedPath() : event.path;
 					const hostInPath = path.includes(host);
 					if (!hostInPath) {
-						console.log('here');
 						dispatch(() => {
+							
 							return {
-								type: 'NOW_DROPDOWN_PANEL#OPENED_SET',
+								type: 'NOW_DROPDOWN#OPENED_SET',
 								payload: {
 									value: false,
 									restoreFocus: false
@@ -662,7 +662,7 @@ createEnhancedElement('now-dropdown-panel', {
 		 * handle this action manually.
 		 * @type {{value: Array.<(string|number)>}}
 		 */
-		'NOW_DROPDOWN_PANEL#SELECTED_ITEMS_SET': {},
+		'SEARCHABLE_DROPDOWN#SELECTED_ITEMS_SET': {},
 		/**
 		 * Dispatched when the user selects a dropdown item. The payload contains
 		 * a reference to the clicked item. Handle this action for dropdown menus

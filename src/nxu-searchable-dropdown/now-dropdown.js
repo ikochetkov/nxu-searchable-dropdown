@@ -271,7 +271,7 @@ const view = (state, { dispatch, updateState }) => {
 	);
 };
 
-createEnhancedElement('now-dropdown', {
+createEnhancedElement('nxu-searchable-dropdown', {
 	initialState: {
 		choices: [],
 		searchText: '',
@@ -354,28 +354,30 @@ createEnhancedElement('now-dropdown', {
 	view,
 	styles,
 	actionHandlers: {
-		'NOW_DROPDOWN_PANEL#OPENED_SET': ({ action, dispatch, state }) => {
-			dispatch(() => {
-				return {
-					type: 'NOW_DROPDOWN#OPENED_SET',
-					payload: action.payload
-				};
-			});
-			if (action.payload.restoreFocus) {
-				state.fitTarget.focus();
-			}
-		},
-		// 'NOW_DROPDOWN#OPENED_SET': (coeffects) => {
-		// 	const { properties, updateProperties } = coeffects;
-		// 	updateProperties({ opened: !properties.opened })
+		// 'NOW_DROPDOWN_PANEL#OPENED_SET': ({ action, dispatch, state }) => {
+		// 	console.log('here');
+		// 	dispatch(() => {
+		// 		return {
+		// 			type: 'NOW_DROPDOWN#OPENED_SET',
+		// 			payload: action.payload
+		// 		};
+		// 	});
+		// 	if (action.payload.restoreFocus) {
+		// 		state.fitTarget.focus();
+		// 	}
 		// },
 
-		'NOW_DROPDOWN_PANEL#SELECTED_ITEMS_SET': makeRedispatchEffect(
-			'NOW_DROPDOWN#SELECTED_ITEMS_SET'
-		),
-		'NOW_DROPDOWN_PANEL#ITEM_CLICKED': makeRedispatchEffect(
-			'NOW_DROPDOWN#ITEM_CLICKED'
-		),
+		'NOW_DROPDOWN#OPENED_SET': ({ action, updateProperties }) => {
+			updateProperties({ opened: action.payload.value });
+			if (action.payload.restoreFocus) state.fitTarget.focus();
+		},
+
+		// 'NOW_DROPDOWN_PANEL#SELECTED_ITEMS_SET': makeRedispatchEffect(
+		// 	'NOW_DROPDOWN#SELECTED_ITEMS_SET'
+		// ),
+		// 'NOW_DROPDOWN_PANEL#ITEM_CLICKED': makeRedispatchEffect(
+		// 	'NOW_DROPDOWN#ITEM_CLICKED'
+		// ),
 		[COMPONENT_BOOTSTRAPPED]: ({ properties, updateState }) => {
 			updateState({ choices: properties.items })
 		},
@@ -385,22 +387,28 @@ createEnhancedElement('now-dropdown', {
 				? items.filter(item => item.label.toLowerCase().includes(searchText.toLowerCase()))
 				: items;
 			updateState({ choices: choicesToShow, searchText: searchText });
-
 		},
-		"NOW_DROPDOWN_PANEL#OPENED_SET": ({ state, dispatch, action, updateProperties }) => {
+		// "NOW_DROPDOWN_PANEL#OPENED_SET": ({ state, dispatch, action, updateProperties }) => {
+		// 	const { payload: { value } } = action;
+		// 	updateProperties({ opened: value });
+		// 	if (!value) state.fitTarget.focus();
+		// 	dispatch("SEARCHABLE_DROPDOWN#FILTERED", "");
+		// },
+		// 'NOW_DROPDOWN_PANEL#SELECTED_ITEMS_SET': ({ updateState, action, updateProperties, properties }) => {
+		// 	const { payload: { value } } = action; console.log(value);
+		// 	updateState({ selectedValue: value });
+		// 	if (properties.select != 'multi') updateProperties({ opened: false });
+		// },
+		'SEARCHABLE_DROPDOWN#SELECTED_ITEMS_SET': ({ dispatch, state, action, properties, updateProperties }) => {
 			const { payload: { value } } = action;
-			updateProperties({ opened: value });
-			if (!value) state.fitTarget.focus();
-			dispatch("SEARCHABLE_DROPDOWN#FILTERED", "");
-		},
-		'NOW_DROPDOWN_PANEL#SELECTED_ITEMS_SET': ({ updateState, action, updateProperties, properties }) => {
-			const { payload: { value } } = action; console.log(value);
-			updateState({ selectedValue: value });
-			if (properties.select != 'multi') updateProperties({ opened: false });
-		},
-		'NOW_DROPDOWN_PANEL#SELECTED_ITEMS_SET': (coeffects) => {
-			console.log(coeffects.action.payload.value);
-			coeffects.updateProperties({ selectedItems: coeffects.action.payload.value });
+			console.log('selected', value);
+			if (properties.select == 'multi') {
+				updateProperties({ selectedItems: value });
+			} else {
+				updateProperties({ selectedItems: value, opened: false });
+				state.fitTarget.focus();
+				dispatch("SEARCHABLE_DROPDOWN#FILTERED", "");
+			}
 		}
 	},
 	dispatches: {
